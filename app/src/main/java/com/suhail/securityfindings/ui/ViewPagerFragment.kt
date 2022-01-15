@@ -11,7 +11,9 @@ import com.suhail.securityfindings.databinding.FragmentViewPagerBinding
 import com.suhail.securityfindings.ui.onBoardingScreen.FirstScreenFragment
 import com.suhail.securityfindings.ui.onBoardingScreen.SecondScreenFragment
 import com.suhail.securityfindings.ui.onBoardingScreen.ThirdFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ViewPagerFragment : Fragment() {
 
     lateinit var binding: FragmentViewPagerBinding

@@ -5,21 +5,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.suhail.securityfindings.dataStore.DataStoreFile
 import com.suhail.securityfindings.databinding.FragmentThirdBinding
 import com.suhail.securityfindings.ui.ViewPagerFragmentDirections
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import com.suhail.securityfindings.viewModels.ViewPagerViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class ThirdFragment : Fragment() {
 
     lateinit var binding: FragmentThirdBinding
     lateinit var navController: NavController
+    val viewModel: ViewPagerViewModel by viewModels()
     lateinit var dataStore: DataStoreFile
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,16 +31,16 @@ class ThirdFragment : Fragment() {
         navController = findNavController()
         dataStore = DataStoreFile(this.requireContext())
         binding.finish.setOnClickListener {
-            lifecycleScope.launch {
-                dataStore.saveToDataStore(true)
-                withContext(Dispatchers.Main) {
-                    val action =
-                        ViewPagerFragmentDirections.actionViewPagerFragmentToLoginFragment()
-                    navController.navigate(action)
-                }
-            }
-
+            viewModel.updateDataInDataStore()
         }
+        viewModel.goToNextPage.observe(viewLifecycleOwner, Observer {
+            if (it) {
+                val action =
+                    ViewPagerFragmentDirections.actionViewPagerFragmentToLoginFragment()
+                navController.navigate(action)
+            }
+        })
+
         return binding.root
     }
 
