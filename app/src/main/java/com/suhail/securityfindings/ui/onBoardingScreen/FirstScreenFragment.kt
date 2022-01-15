@@ -9,11 +9,13 @@ import com.suhail.securityfindings.R
 
 
 class FirstScreenFragment : Fragment() {
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+
         return inflater.inflate(R.layout.fragment_first_screen, container, false)
     }
 

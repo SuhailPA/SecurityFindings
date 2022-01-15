@@ -5,9 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.suhail.securityfindings.R
+import androidx.navigation.NavController
+import com.suhail.securityfindings.adapters.ViewPagerAdapter
+import com.suhail.securityfindings.databinding.FragmentViewPagerBinding
+import com.suhail.securityfindings.ui.onBoardingScreen.FirstScreenFragment
+import com.suhail.securityfindings.ui.onBoardingScreen.SecondScreenFragment
+import com.suhail.securityfindings.ui.onBoardingScreen.ThirdFragment
 
 class ViewPagerFragment : Fragment() {
+
+    lateinit var binding: FragmentViewPagerBinding
+    lateinit var navController: NavController
 
 
     override fun onCreateView(
@@ -15,7 +23,22 @@ class ViewPagerFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_view_pager, container, false)
+        binding = FragmentViewPagerBinding.inflate(layoutInflater)
+        val fragmentList = arrayListOf<Fragment>(
+            FirstScreenFragment(),
+            SecondScreenFragment(),
+            ThirdFragment()
+        )
+
+        val viewPagerAdapter = ViewPagerAdapter(
+            fragmentList,
+            requireActivity().supportFragmentManager,
+            lifecycle
+        )
+
+        binding.onBoardingScreens.adapter = viewPagerAdapter
+
+        return binding.root
     }
 
 
